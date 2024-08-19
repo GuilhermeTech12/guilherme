@@ -1,7 +1,5 @@
 <?php
-
-print_r($_POST);
-
-echo $_POST["nome"];
+session_start();
+print_r($_SESSION);
 
 ?>
