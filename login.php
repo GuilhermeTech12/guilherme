@@ -4,19 +4,24 @@ include("conexao.php");
 $cpf = $_POST["CPF"];
 $senha = $_POST["SENHA"];
 
-$sql = "select NOME from usuários where CPF = '$cpf' and senha = '$senha' ";
-$resultado = $conn -> query ($sql);
-$row = $resultado -> fetch_assoc();
+$sql = "SELECT NOME FROM usuários WHERE CPF=? and SENHA=? ";
+$stmt = $conn->prepare($sql);
 
-if(isset($row) && $row["NOME"] != ''){
-    session_start();
-    $_SESSION["CPF"] = $cpf;
-    $_SESSION["SENHA"] = $senha;
-    $_SESSION["NOME"] = $row ["NOME"];
+if($stmt) {
+    $stmt->bind_param("ss", $cpf, $senha);
+    $stmt->execute();
+    $stmt->bind_result($nome);
+    $stmt->fetch();
 
-    header("Location: gravar.php");
-} else {
-    die ("Senha incorreta seu energumeno");
+    if($nome != ''){
+        session_start();
+        $_SESSION["CPF"] = $cpf;
+        $_SESSION["SENHA"] = $senha;
+        $_SESSION["NOME"] = $nome;
+        header("location: principal.php");
+    }else{
+        die("senhha incorreta");
+    }
 }
- 
+
 ?>
