@@ -45,12 +45,7 @@ include("valida.php");
                 $stmt->bind_result($nome);
                 $stmt->fetch();
             
-                if($nome != ''){
-                    session_start();
-                    $_SESSION["CPF"] = $cpf;
-                    $_SESSION["SENHA"] = $senha;
-                    $_SESSION["NOME"] = $nome;
-                    header("location: principal.php");
+                
                 }else{
                     die("senhha incorreta");
                 }
