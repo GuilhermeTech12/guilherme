@@ -36,11 +36,26 @@ include("valida.php");
             <hr><br><br>
             <?php
             include("conexao.php");
-            $sql = "SELECT * FROM usuários";
-            if (!$resultado = $conn->query($sql)) {
-                die("erro");
-            };
-
+            $sql = "SELECT NOME FROM usuários WHERE CPF=? and SENHA=? ";
+            $stmt = $conn->prepare($sql);
+            
+            if($stmt) {
+                $stmt->bind_param("ss", $cpf, $senha);
+                $stmt->execute();
+                $stmt->bind_result($nome);
+                $stmt->fetch();
+            
+                if($nome != ''){
+                    session_start();
+                    $_SESSION["CPF"] = $cpf;
+                    $_SESSION["SENHA"] = $senha;
+                    $_SESSION["NOME"] = $nome;
+                    header("location: principal.php");
+                }else{
+                    die("senhha incorreta");
+                }
+            }
+            
             ?>
             <table>
                 <tr>
@@ -48,6 +63,7 @@ include("valida.php");
                     <td>SENHA</td>
                     <td>CPF</td>
                     <td>alterar</td>
+                    <td>apagar</td>
                 </tr>
                 <?php
                 while ($row = $resultado->fetch_assoc()) {
@@ -60,7 +76,10 @@ include("valida.php");
                             <td><input type="text" name="CPF" value="<?= $row['CPF']; ?>"></td>
                             <td><input type="text" name="SENHA" value="<?= $row['SENHA']; ?>"></td>
                             <td><input type="submit" value="alterar"></td>
-
+                        </form>
+                        <form method="post" action="apagarUsuario.php">
+                        <input type="hidden" name="CPF" value="<?= $row['CPF']; ?>">
+                        <td><input type="submit" value="apagar"></td>    
                         </form>
                     </tr>
                 <?php
