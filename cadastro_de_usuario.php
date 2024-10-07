@@ -36,19 +36,13 @@ include("valida.php");
             <hr><br><br>
             <?php
             include("conexao.php");
-            $sql = "SELECT NOME FROM usuários WHERE CPF=? and SENHA=? ";
+            $sql = "SELECT NOME, CPF, SENHA FROM usuários  ";
             $stmt = $conn->prepare($sql);
             
             if($stmt) {
-                $stmt->bind_param("ss", $cpf, $senha);
+               
                 $stmt->execute();
-                $stmt->bind_result($nome);
-                $stmt->fetch();
-            
-                
-                }
-                
-            
+                $resultado = $stmt->get_result();
             ?>
             <table>
                 <tr>
@@ -79,7 +73,7 @@ include("valida.php");
                 }
                 ?>
             </table>
-
+<?php   } ?>
 
         </div>
     </div>

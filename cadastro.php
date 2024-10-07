@@ -5,11 +5,11 @@ $nome = $_POST["NOME"];
 $cpf = $_POST["CPF"];
 $senha = $_POST["SENHA"];
 
-$sql = "SELECT NOME FROM usuários WHERE CPF=? and SENHA=? ";
+$sql = "insert into FROM usuários values (CPF, SENHA)";
 $stmt = $conn->prepare($sql);
 
 if($stmt) {
-    $stmt->bind_param("ss", $cpf, $senha);
+    $stmt->bind_param("sss", $cpf, $senha, $nome);
     $stmt->execute();
     $stmt->bind_result($nome);
     $stmt->fetch();
@@ -21,7 +21,7 @@ if($stmt) {
         $_SESSION["NOME"] = $nome;
         header("location: principal.php");
     }else{
-        die("senhha incorreta");
+        die("senha incorreta");
     }
 }
 

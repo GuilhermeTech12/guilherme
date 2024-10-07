@@ -21,7 +21,7 @@ if($stmt) {
         $_SESSION["NOME"] = $nome;
         header("location: principal.php");
     }else{
-        die("senhha incorreta");
+        die("senha incorreta");
     }
 }
 
