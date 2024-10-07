@@ -46,10 +46,8 @@ include("valida.php");
                 $stmt->fetch();
             
                 
-                }else{
-                    die("senhha incorreta");
                 }
-            }
+                
             
             ?>
             <table>
